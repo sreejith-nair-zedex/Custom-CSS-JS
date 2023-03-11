@@ -30,9 +30,13 @@ if ( ! class_exists( "cjPost" ) ) {
 		}
 
 		public function editor_metabox() {
+			global $post;
+			$language = $_GET['language'] == null
+				? get_post_meta($post->ID,'_cj_language_meta', true)
+				: $_GET['language'];
 			add_meta_box(
 				"_cj_meta",
-				strtoupper($_GET["language"]) . " Editor",
+				strtoupper($language) . " Editor",
 				[ $this, 'editor_metabox_html' ],
 				"my_custom_css_js"
 			);
@@ -46,11 +50,10 @@ if ( ! class_exists( "cjPost" ) ) {
 //				$content = $metaValue['content'];
 //			}
 			$content = get_post_meta($post->ID,'_cj_content_meta', true);
-			if ($content){
-				$language = get_post_meta($post->ID,'_cj_content_meta', true);
-			}else{
-				$language = $_GET['language'];
-			}
+			$language = $_GET['language'] == null
+				? get_post_meta($post->ID,'_cj_language_meta', true)
+				: $_GET['language'];
+
 			echo '
 			<input type="hidden" name="cj-content" id="cj-content" value="' . $content . '" />
 			<input type="hidden" name="cj-language" id="cj-language" value="' . $language . '" />

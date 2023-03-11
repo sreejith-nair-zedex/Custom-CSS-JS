@@ -10,11 +10,12 @@ jQuery(document).ready(function ($){
     }
 
     const params = new URLSearchParams(window.location.search);
-    const language = params.get('language');
+    let language = params.get('language');
 
     if (language != null){
         metaBoxLanguage.value = language;
-        console.log(metaBoxLanguage.value);
+    }else {
+        language = metaBoxLanguage.value;
     }
 
     if (metaBoxTextArea) {
