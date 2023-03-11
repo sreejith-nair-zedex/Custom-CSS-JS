@@ -35,8 +35,8 @@ if ( ! class_exists( "cjEditor" ) ) {
 			$title = __( 'Add Custom JS', 'my_custom_css_js' );
 			add_submenu_page( $menu_slug, $title, $title, 'publish_custom_csss', $submenu_slug . '&#038;language=js' );
 
-			$title = __( 'Add Custom HTML', 'my_custom_css_js' );
-			add_submenu_page( $menu_slug, $title, $title, 'publish_custom_csss', $submenu_slug . '&#038;language=html' );
+//			$title = __( 'Add Custom HTML', 'my_custom_css_js' );
+//			add_submenu_page( $menu_slug, $title, $title, 'publish_custom_csss', $submenu_slug . '&#038;language=html' );
 		}
 
 		public static function getInstance() {

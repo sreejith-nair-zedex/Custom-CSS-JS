@@ -30,13 +30,11 @@ if ( ! class_exists( "myCustomCssJs" ) ) {
 		public function includes() {
 			include_once CJ_INCLUDES_DIR . "class-cj-post.php";
 			include_once CJ_INCLUDES_DIR . "class-cj-editor.php";
-			include_once CJ_INCLUDES_DIR . "class-cj-new-editor.php";
 		}
 
 		public function init() {
 			$this->CjPost   = cjPost::getInstance();
 			$this->CjEditor = cjEditor::getInstance();
-
 		}
 	}
 }

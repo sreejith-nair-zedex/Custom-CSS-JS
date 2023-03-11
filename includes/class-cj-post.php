@@ -18,13 +18,12 @@ if ( ! class_exists( "cjPost" ) ) {
 			$args = array(
 				'labels'        => array(
 					'name'          => __( 'Custom CSS JS' ),
-					'singular_name' => __( 'All Custom CSS JS' ),
+					'singular_name' => __( 'Custom CSS JS' ),
 				),
 				'public'        => true,
 				'menu_position' => 5,
 				'supports'      => array( 'title' ),
 				'has_archive'   => true,
-//						'publicly_queryable' => false,
 			);
 
 			register_post_type( 'my_custom_css_js', $args );
@@ -37,22 +36,24 @@ if ( ! class_exists( "cjPost" ) ) {
 				[ $this, 'editor_metabox_html' ],
 				"my_custom_css_js"
 			);
-//				elseif ($_GET['type'] === null && $_GET['post_type'] === 'my_custom_css_js'){
-//					wp_redirect(admin_url('edit.php?post_type=my_custom_css_js'));
-//				}
-//
 		}
 
-		function editor_metabox_html( $post ) {
-			$metaValue = get_post_meta( $post->ID, "_cj_meta", true );
-			$language = $_GET['language'];
-			if (!empty($metaValue)){
-				if($language == null)  $language = $metaValue['language'];
-				$content = $metaValue['content'];
+		public function editor_metabox_html( $post ) {
+//			$metaValue = get_post_meta( $post->ID, "_cj_content_meta", true );
+//			$language = $_GET['language'];
+//			if (!empty($metaValue)){
+//				if($language == null)  $language = $metaValue['language'];
+//				$content = $metaValue['content'];
+//			}
+			$content = get_post_meta($post->ID,'_cj_content_meta', true);
+			if ($content){
+				$language = get_post_meta($post->ID,'_cj_content_meta', true);
+			}else{
+				$language = $_GET['language'];
 			}
 			echo '
-			<input type="hidden" name="cj-content" id="cj-content" value="' . $language . '" />
-			<input type="hidden" name="cj-language" id="cj-language" value="' . $content . '" />
+			<input type="hidden" name="cj-content" id="cj-content" value="' . $content . '" />
+			<input type="hidden" name="cj-language" id="cj-language" value="' . $language . '" />
 			<textarea id="editor">'.$content.'</textarea>
 			';
 		}
@@ -61,19 +62,21 @@ if ( ! class_exists( "cjPost" ) ) {
 		}
 
 		function editor_metabox_save( $post_id ) {
+
 			if ( isset( $_POST['cj-content'] ) ) {
 
-				$metaValue = get_post_meta( $post_id, "_cj_meta", true );
+				$cjContent = $_POST['cj-content'];
+				update_post_meta( $post_id, "_cj_content_meta", $cjContent );
 
-				$options['content'] = $_POST['cj-content'];
-				if (str_contains($options['content'], $_POST['cj-language'])){
-					$options['language'] = $metaValue['language'];
+				$language = null;
+				if ($_POST['cj-language'] == "js" || $_POST['cj-language'] == "css"){
+					$language = $_POST['cj-language'];
 				}
-				$options['language'] = $_POST['cj-language'];
-				update_post_meta( $post_id, "_cj_meta", $options );
+				if ($language != null){
+					update_post_meta($post_id, '_cj_language_meta',$language);
+				}
 			}
 		}
-
 
 		public static function getInstance() {
 			if ( self::$instance === null ) {

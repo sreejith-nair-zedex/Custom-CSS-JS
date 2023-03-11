@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: My Custom Css Js
+  Plugin Name: Css Js Custom
   Description: Plugin to add css and js to wordpress pages.
   Version: 1.0.0
 */
